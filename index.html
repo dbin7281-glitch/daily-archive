@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>📚 晓观日报档案馆</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#F5F6FA;color:#1a1a2e}
+.hd{background:linear-gradient(135deg,#0A1628,#1B2A45);color:#fff;padding:28px 20px;text-align:center}
+.hd h1{font-size:24px;letter-spacing:2px}
+.hd h1 span{color:#C9A84C}
+.hd .sub{color:#9aa8bb;font-size:13px;margin-top:6px}
+.wrap{max-width:960px;margin:0 auto;padding:16px}
+.cal{background:#fff;border-radius:12px;padding:14px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);position:sticky;top:8px;z-index:5}
+.calmt{font-weight:700;font-size:14px;color:#0A1628;margin-bottom:8px}
+.calds{display:flex;flex-wrap:wrap;gap:6px}
+.cald{width:34px;height:34px;border-radius:8px;border:1px solid #E8ECF0;background:#fff;cursor:pointer;font-size:13px;color:#0A1628;transition:.15s}
+.cald:hover{background:#C9A84C;color:#fff;border-color:#C9A84C}
+.day{background:#fff;border-radius:14px;margin:16px 0;box-shadow:0 1px 5px rgba(0,0,0,.07);overflow:hidden}
+.daybar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#0A1628;color:#fff}
+.dd{font-size:22px;font-weight:800;color:#C9A84C}
+.dm{font-size:14px;color:#9aa8bb}
+.dy{font-size:13px;color:#9aa8bb}
+.pages{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:14px}
+.page{border-radius:10px;overflow:hidden;border:1px solid #E8ECF0;background:#fff}
+.page .phead{padding:8px 10px;font-size:13px;font-weight:600;color:var(--c);border-bottom:2px solid var(--c)}
+.page .ptime{font-weight:400;color:#9aa8bb;font-size:11px;margin-left:4px}
+.page img{width:100%;display:block;cursor:zoom-in;min-height:120px;object-fit:cover}
+.page.empty .ph{height:140px;display:flex;align-items:center;justify-content:center;color:#c5ccd6;font-size:13px}
+.footer{text-align:center;color:#9aa8bb;font-size:12px;padding:20px}
+/* lightbox */
+#lb{position:fixed;inset:0;background:rgba(10,22,40,.94);display:none;z-index:99;flex-direction:column;align-items:center;justify-content:center}
+#lb.show{display:flex}
+#lb img{max-width:94vw;max-height:86vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+#lb .lbinfo{color:#C9A84C;font-size:14px;margin-top:10px}
+#lb .lbclose{position:absolute;top:16px;right:20px;font-size:30px;color:#fff;cursor:pointer;background:none;border:none}
+#lb .lbnav{position:absolute;top:50%;transform:translateY(-50%);font-size:40px;color:#fff;cursor:pointer;background:rgba(255,255,255,.1);border:none;width:52px;height:52px;border-radius:50%}
+#lb .lbnav.l{left:12px} #lb .lbnav.r{right:12px}
+@media(max-width:640px){.pages{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="hd"><h1>📚 <span>晓观</span> · 日报档案馆</h1><div class="sub">晨报 / 午盘复盘 / 晚报 · 像看书一样翻</div></div>
+<div class="wrap">
+  <div class="cal"><div class="calmt">🗓 按日翻阅</div><div class="calds">
+      <div class="calm"><div class="calmt">2026-08</div><div class="calds"><button class="cald" data-target="day-2026-08-13">13</button></div></div></div></div>
+  
+    <section class="day" id="day-2026-08-13" data-date="2026-08-13">
+      <div class="daybar"><span class="dd">13</span><span class="dm">08月</span><span class="dy">· 2026-08-13</span></div>
+      <div class="pages">
+        <div class="page" data-type="morning" style="--c:#E8A33D">
+          <div class="phead">🌅 晨报 <span class="ptime">08:45</span></div>
+          <img loading="lazy" src="assets/2026-08-13/morning.jpg" alt="2026-08-13 晨报" onclick="openLightbox('2026-08-13','morning')">
+        </div>
+        <div class="page" data-type="noon" style="--c:#3D8BE8">
+          <div class="phead">☀️ 午盘复盘 <span class="ptime">11:40</span></div>
+          <img loading="lazy" src="assets/2026-08-13/noon.jpg" alt="2026-08-13 午盘复盘" onclick="openLightbox('2026-08-13','noon')">
+        </div>
+        <div class="page empty" data-type="evening">
+          <div class="phead">·</div>
+          <div class="ph">暂无</div>
+        </div></div>
+    </section>
+  <div class="footer">🌅 晓观 · 晨报 | ☀️ 午盘复盘 | 🌙 晓观 · 晚报 | 🪨 投石 · 数据看板 | 投资有风险 入市需谨慎</div>
+</div>
+<div id="lb">
+  <button class="lbclose" onclick="closeLB()">×</button>
+  <button class="lbnav l" onclick="navLB(-1)">‹</button>
+  <img id="lbimg" src="" alt="">
+  <button class="lbnav r" onclick="navLB(1)">›</button>
+  <div class="lbinfo" id="lbinfo"></div>
+</div>
+<script>
+const MANIFEST = {"2026-08-13": {"noon": {"time": "1140", "disp": "午盘复盘", "emoji": "☀️", "color": "#3D8BE8"}, "morning": {"time": "0845", "disp": "晨报", "emoji": "🌅", "color": "#E8A33D"}}};
+const DAYS = Object.keys(MANIFEST).sort().reverse();
+const TYPELABEL = {'morning':'🌅 晨报','noon':'☀️ 午盘复盘','evening':'🌙 晚报'};
+let lbIdx = 0, lbList = [];
+function openLightbox(d, t) {
+  lbList = [];
+  for (const dd of DAYS) for (const tt of ['morning','noon','evening']) if (MANIFEST[dd][tt]) lbList.push({d:dd,t:tt});
+  lbIdx = lbList.findIndex(x => x.d===d && x.t===t);
+  showLB();
+}
+function showLB() {
+  const x = lbList[lbIdx];
+  document.getElementById('lbimg').src = `assets/${x.d}/${x.t}.jpg`;
+  document.getElementById('lbinfo').textContent = `${x.d} · ${TYPELABEL[x.t]}  (${lbIdx+1}/${lbList.length})`;
+  document.getElementById('lb').classList.add('show');
+}
+function closeLB() { document.getElementById('lb').classList.remove('show'); }
+function navLB(d) { lbIdx = (lbIdx + d + lbList.length) % lbList.length; showLB(); }
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lb').classList.contains('show')) return;
+  if (e.key==='Escape') closeLB();
+  if (e.key==='ArrowLeft') navLB(-1);
+  if (e.key==='ArrowRight') navLB(1);
+});
+document.querySelectorAll('.cald').forEach(b => b.addEventListener('click', () => {
+  const el = document.getElementById(b.dataset.target);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}));
+</script>
+</body>
+</html>
