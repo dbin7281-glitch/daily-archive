@@ -17,6 +17,9 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
 .calds{display:flex;flex-wrap:wrap;gap:6px}
 .cald{width:34px;height:34px;border-radius:8px;border:1px solid #E8ECF0;background:#fff;cursor:pointer;font-size:13px;color:#0A1628;transition:.15s}
 .cald:hover{background:#C9A84C;color:#fff;border-color:#C9A84C}
+.calnav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.calnav .navbtn{width:auto;padding:0 14px;height:36px;border-radius:8px}
+.calnav input[type=date]{height:36px;border:1px solid #E8ECF0;border-radius:8px;padding:0 10px;font-size:14px;color:#0A1628;background:#fff}
 .day{background:#fff;border-radius:14px;margin:16px 0;box-shadow:0 1px 5px rgba(0,0,0,.07);overflow:hidden}
 .daybar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#0A1628;color:#fff}
 .dd{font-size:22px;font-weight:800;color:#C9A84C}
@@ -43,9 +46,18 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
 <body>
 <div class="hd"><h1>📚 <span>晓观</span> · 日报档案馆</h1><div class="sub">晨报 / 午盘复盘 / 晚报 · 像看书一样翻</div></div>
 <div class="wrap">
-  <div class="cal"><div class="calmt">🗓 按日翻阅</div><div class="calds">
+  <div class="cal">
+    <div class="calmt">🗓 按日翻阅</div>
+    <div class="calnav">
+      <button class="cald navbtn" data-target="prev">‹ 前一天</button>
+      <input type="date" id="datepicker" min="2026-07-30" max="2026-08-13" value="2026-08-13">
+      <button class="cald navbtn" data-target="next">后一天 ›</button>
+      <button class="cald navbtn" data-target="top" id="btnTop">↑ 回顶部</button>
+    </div>
+    <div class="calds">
       <div class="calm"><div class="calmt">2026-08</div><div class="calds"><button class="cald" data-target="day-2026-08-13">13</button><button class="cald" data-target="day-2026-08-12">12</button><button class="cald" data-target="day-2026-08-11">11</button><button class="cald" data-target="day-2026-08-10">10</button><button class="cald" data-target="day-2026-08-07">7</button><button class="cald" data-target="day-2026-08-06">6</button><button class="cald" data-target="day-2026-08-05">5</button><button class="cald" data-target="day-2026-08-04">4</button></div></div>
-      <div class="calm"><div class="calmt">2026-07</div><div class="calds"><button class="cald" data-target="day-2026-07-30">30</button></div></div></div></div>
+      <div class="calm"><div class="calmt">2026-07</div><div class="calds"><button class="cald" data-target="day-2026-07-30">30</button></div></div></div>
+  </div>
   
     <section class="day" id="day-2026-08-13" data-date="2026-08-13">
       <div class="daybar"><span class="dd">13</span><span class="dm">08月</span><span class="dy">· 2026-08-13</span></div>
@@ -205,6 +217,38 @@ const MANIFEST = {"2026-08-13": {"noon": {"time": "1140", "disp": "午盘复盘"
 const DAYS = Object.keys(MANIFEST).sort().reverse();
 const TYPELABEL = {'morning':'🌅 晨报','noon':'☀️ 午盘复盘','evening':'🌙 晚报'};
 let lbIdx = 0, lbList = [];
+// ── 日期导航: 前一天/后一天/日期选择器 ──
+function gotoDay(offset) {
+  const cur = document.querySelector('.day[data-date]');
+  const curDate = cur ? cur.dataset.date : DAYS[0];
+  const idx = DAYS.indexOf(curDate);
+  const ni = Math.min(Math.max(idx + offset, 0), DAYS.length - 1);
+  const target = document.getElementById('day-' + DAYS[ni]);
+  if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+}
+document.getElementById('datepicker').addEventListener('change', e => {
+  const d = e.target.value;
+  const el = document.getElementById('day-' + d);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  else alert('该日期没有日报归档({}无记录)'.replace('{}', d));
+});
+document.querySelectorAll('.cald.navbtn').forEach(b => {
+  b.addEventListener('click', () => {
+    const t = b.dataset.target;
+    if (t === 'prev') gotoDay(-1);
+    else if (t === 'next') gotoDay(1);
+    else window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+// 滚动时高亮当前日期(IntersectionObserver)
+const dayObs = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      document.getElementById('datepicker').value = en.target.dataset.date;
+    }
+  });
+}, {rootMargin:'-30% 0px -60% 0px'});
+document.querySelectorAll('.day').forEach(d => dayObs.observe(d));
 function openLightbox(d, t) {
   lbList = [];
   for (const dd of DAYS) for (const tt of ['morning','noon','evening']) if (MANIFEST[dd][tt]) lbList.push({d:dd,t:tt});
