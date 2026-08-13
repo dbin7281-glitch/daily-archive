@@ -12,5 +12,75 @@
    "emoji": "🌅",
    "color": "#E8A33D"
   }
+ },
+ "2026-07-30": {
+  "morning": {
+   "time": "2329",
+   "disp": "晨报",
+   "emoji": "🌅",
+   "color": "#E8A33D"
+  }
+ },
+ "2026-08-12": {
+  "noon": {
+   "time": "1352",
+   "disp": "午盘复盘",
+   "emoji": "☀️",
+   "color": "#3D8BE8"
+  },
+  "morning": {
+   "time": "0911",
+   "disp": "晨报",
+   "emoji": "🌅",
+   "color": "#E8A33D"
+  }
+ },
+ "2026-08-06": {
+  "morning": {
+   "time": "1034",
+   "disp": "晨报",
+   "emoji": "🌅",
+   "color": "#E8A33D"
+  }
+ },
+ "2026-08-07": {
+  "morning": {
+   "time": "0922",
+   "disp": "晨报",
+   "emoji": "🌅",
+   "color": "#E8A33D"
+  }
+ },
+ "2026-08-10": {
+  "morning": {
+   "time": "0926",
+   "disp": "晨报",
+   "emoji": "🌅",
+   "color": "#E8A33D"
+  }
+ },
+ "2026-08-11": {
+  "morning": {
+   "time": "0845",
+   "disp": "晨报",
+   "emoji": "🌅",
+   "color": "#E8A33D"
+  }
+ },
+ "2026-08-05": {
+  "morning": {
+   "time": "0845",
+   "disp": "晨报",
+   "emoji": "🌅",
+   "color": "#E8A33D"
+  }
+ },
+ "2026-08-04": {
+  "morning": {
+   "time": "2322",
+   "disp": "晨报",
+   "emoji": "🌅",
+   "color": "#E8A33D"
+  }
  }
 }
