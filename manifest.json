@@ -96,5 +96,25 @@
    "emoji": "🌅",
    "color": "#E8A33D"
   }
+ },
+ "2026-08-24": {
+  "noon": {
+   "time": "1140",
+   "disp": "午盘复盘",
+   "emoji": "☀️",
+   "color": "#3D8BE8"
+  },
+  "evening": {
+   "time": "0000",
+   "disp": "晚报",
+   "emoji": "🌙",
+   "color": "#7A5AE8"
+  },
+  "morning": {
+   "time": "0845",
+   "disp": "晨报",
+   "emoji": "🌅",
+   "color": "#E8A33D"
+  }
  }
 }
